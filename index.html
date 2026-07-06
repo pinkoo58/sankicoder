@@ -93,15 +93,6 @@
                     </div>
                 </div>
             </div>
-                <div class="scroll-indicator">
-                    <span class="scroll-text">Scroll to explore</span>
-                    <div class="scroll-chevron">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -267,7 +258,10 @@
                         <p>Serving clients worldwide</p>
                     </div>
                 </div>
-                <form class="contact-form" id="leadForm">
+                <form class="contact-form" id="leadForm" action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="186a8ba8-2869-45df-88c6-ebedd689405f">
+                    <input type="hidden" name="subject" value="New SankiCoder Lead">
+                    <input type="hidden" name="from_name" value="SankiCoder Website">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="name">Full Name <span class="required">*</span></label>
@@ -301,8 +295,10 @@
                     </div>
                     <div class="form-group checkbox-group">
                         <label class="checkbox-label">
-                            <input type="checkbox" id="consent" name="consent" value="yes" required>
-                            <span class="checkmark"></span>
+                            <span class="checkbox-check">
+                                <input type="checkbox" id="consent" name="consent" value="yes" required>
+                                <span class="checkmark"></span>
+                            </span>
                             <span class="checkbox-text">I agree to be contacted about my project and have read the privacy policy.</span>
                         </label>
                     </div>
