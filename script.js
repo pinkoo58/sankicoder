@@ -186,23 +186,36 @@ leadForm.addEventListener('submit', async (e) => {
         phone: document.getElementById('phone').value.trim(),
         service: document.getElementById('service').value,
         message: document.getElementById('message').value.trim(),
-        timestamp: new Date().toISOString(),
-        source: 'SankiCoder Website'
+        _subject: 'New SankiCoder Lead',
+        _captcha: 'false',
+        _template: 'table'
     };
     
     try {
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        // Send via FormSubmit AJAX API
+        const response = await fetch('https://formsubmit.co/ajax/sankicoder.labs@gmail.com', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(formData)
+        });
         
-        const leads = JSON.parse(localStorage.getItem('sankicoder_leads') || '[]');
-        leads.push(formData);
-        localStorage.setItem('sankicoder_leads', JSON.stringify(leads));
+        const result = await response.json();
         
-        leadForm.querySelector('.btn-full').style.display = 'none';
-        formSuccess.style.display = 'block';
-        console.log('Lead captured:', formData);
+        if (result.success) {
+            // Store in localStorage for backup
+            const leads = JSON.parse(localStorage.getItem('sankicoder_leads') || '[]');
+            leads.push({ ...formData, timestamp: new Date().toISOString(), source: 'SankiCoder Website' });
+            localStorage.setItem('sankicoder_leads', JSON.stringify(leads));
+            
+            leadForm.querySelector('.btn-full').style.display = 'none';
+            formSuccess.style.display = 'block';
+            console.log('Lead sent:', formData);
+        } else {
+            throw new Error('FormSubmit failed');
+        }
     } catch (error) {
         console.error('Error submitting form:', error);
-        alert('There was an error submitting your message. Please try again.');
+        alert('There was an error sending your message. Please try again or email us directly at sankicoder.labs@gmail.com');
         btnText.style.display = 'inline-flex';
         btnLoading.style.display = 'none';
         submitBtn.disabled = false;
